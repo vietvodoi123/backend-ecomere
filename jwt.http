@@ -1,0 +1,18 @@
+GET http://localhost:5000/books
+Authorization: Beaer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTgyODMzODAsImV4cCI6MTY5ODI4MzQxMH0.3nTmfUMJ_8O9lmCSy2RGOUk7OUmZczRqq7ngDCLXjiA
+###
+POST  http://localhost:5000/login
+
+
+{
+  "username":"holtex"
+}
+###
+GET http://localhost:5000/api/test 
+###
+POST  http://localhost:5000/api/user/signin
+
+{"fullName":"Pham van Viet",
+  "password":"viet24112001",
+  "email":"vietvodoi1232@gmail.com"
+} 
