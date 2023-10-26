@@ -21,4 +21,4 @@ app.use("/api/user", userRoutes);
 app.use("/api/review", reviewRoutes);
 app.use("/api/cart", cartRoutes);
 
-app.listen(3000, () => console.log(`Server running on port ${PORT}`));
+app.listen(3000, () => console.log(`Server running on port ${3000}`));
