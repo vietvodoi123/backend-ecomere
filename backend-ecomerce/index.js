@@ -2,6 +2,7 @@ const express = require("express");
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
 const cartRoutes = require("./routes/cartRoutes");
+const reviewRoutes = require("./routes/reviewRoutes");
 const { connectDB } = require("./config/db");
 const app = express();
 
@@ -16,6 +17,7 @@ app.get("/", (req, res) => {
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/carts", cartRoutes);
+app.use("/api/reviews", reviewRoutes);
 // Khởi động máy chủ
 app.listen(3000, () => {
   console.log(`Máy chủ đang chạy trên cổng ${3000}`);
