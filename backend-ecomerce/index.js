@@ -4,10 +4,8 @@ const app = express();
 // Middleware để phân tích dữ liệu JSON
 app.use(express.json());
 
-// Định nghĩa các tuyến đường của bạn và kết nối với MongoDB bằng Mongoose
-// Ví dụ một tuyến đường:
-app.get("/api/items", (req, res) => {
-  // Thực hiện logic của bạn ở đây
+app.get("/", (req, res) => {
+  res.json({ message: "API running..." });
 });
 
 // Khởi động máy chủ
