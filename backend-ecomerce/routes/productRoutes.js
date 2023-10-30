@@ -1,9 +1,10 @@
 const express = require("express");
-const router = express.Router();
 const {
   getAllProducts,
   getProductById,
 } = require("../controllers/productControllers");
+
+const router = express.Router();
 
 // Lấy tất cả sản phẩm
 router.get("/", getAllProducts);

@@ -3,7 +3,11 @@ const Product = require("../models/Product");
 // Lấy tất cả sản phẩm
 const getAllProducts = async (req, res) => {
   try {
-    const { page = 1, pageSize = 10, name, category } = req.query;
+    let { page, pageSize, name, category } = req.query;
+
+    // Xác định giá trị mặc định nếu các tham số không tồn tại
+    if (!page) page = 1;
+    if (!pageSize) pageSize = 10;
 
     const filter = {};
     if (name) {
