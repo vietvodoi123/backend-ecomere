@@ -7,11 +7,10 @@ const app = express();
 // Middleware để phân tích dữ liệu JSON
 app.use(express.json());
 
+connectDB();
 app.get("/", (req, res) => {
   res.json({ message: "API running..." });
 });
-
-connectDB();
 
 app.use("/api/user", userRoutes);
 app.use("/api/product", productRoutes);
