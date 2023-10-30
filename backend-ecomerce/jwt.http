@@ -1,0 +1,15 @@
+POST  http://localhost:3000/api/carts
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1M2Y0NjZhN2Q0ZGRkMjFiMjlhM2RlZSIsImlhdCI6MTY5ODY0NzExOCwiZXhwIjoxNzA3Mjg3MTE4fQ.SjX5kkEjnhAbkRlp-3ETSN4SUUh2qth1P64Z94NSOvU
+
+{
+  "user_id":"653f466a7d4ddd21b29a3dee",
+  "items":[],
+  "isPaid":false,
+  "status":"ddsada"
+}
+
+###
+GET http://localhost:3000/api/carts/653f466a7d4ddd21b29a3dee
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1M2Y0NjZhN2Q0ZGRkMjFiMjlhM2RlZSIsImlhdCI6MTY5ODY0NzI2NSwiZXhwIjoxNzA3Mjg3MjY1fQ.hF0ZViAZeUKi8gS-sKluF_Tf2rVMtKaq1Xips6L9tU8
