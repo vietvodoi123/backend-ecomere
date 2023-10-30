@@ -1,5 +1,6 @@
 const express = require("express");
 const userRoutes = require("./routes/userRoutes");
+const productRoutes = require("./routes/productRoutes");
 const { connectDB } = require("./config/db");
 const app = express();
 
@@ -13,6 +14,7 @@ app.get("/", (req, res) => {
 connectDB();
 
 app.use("/api/user", userRoutes);
+app.use("/api/product", productRoutes);
 // Khởi động máy chủ
 app.listen(3000, () => {
   console.log(`Máy chủ đang chạy trên cổng ${3000}`);
