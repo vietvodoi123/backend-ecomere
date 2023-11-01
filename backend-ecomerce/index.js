@@ -7,12 +7,8 @@ const cors = require("cors");
 const { connectDB } = require("./config/db");
 const app = express();
 
-const corsOptions = {
-  origin: "https://backend-ecomerce-ropi.onrender.com", // Đổi thành địa chỉ URL của ứng dụng triển khai của bạn
-};
-app.use(cors(corsOptions));
-// Middleware để phân tích dữ liệu JSON
 app.use(express.json());
+// app.use(cors());
 
 connectDB();
 app.get("/", (req, res) => {
