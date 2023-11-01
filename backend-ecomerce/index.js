@@ -7,7 +7,7 @@ const cors = require("cors");
 const { connectDB } = require("./config/db");
 const app = express();
 
-app.use(cors);
+app.use(cors());
 // Middleware để phân tích dữ liệu JSON
 app.use(express.json());
 
