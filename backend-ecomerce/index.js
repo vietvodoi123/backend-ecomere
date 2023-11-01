@@ -3,9 +3,11 @@ const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
+const cors = require("cors");
 const { connectDB } = require("./config/db");
 const app = express();
 
+app.use(cors);
 // Middleware để phân tích dữ liệu JSON
 app.use(express.json());
 
