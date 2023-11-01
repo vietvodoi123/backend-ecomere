@@ -20,6 +20,6 @@ app.use("/api/products", productRoutes);
 app.use("/api/carts", cartRoutes);
 app.use("/api/reviews", reviewRoutes);
 // Khởi động máy chủ
-app.listen(3000, () => {
-  console.log(`Máy chủ đang chạy trên cổng ${3000}`);
+app.listen(5000, () => {
+  console.log(`Máy chủ đang chạy trên cổng ${5000}`);
 });
