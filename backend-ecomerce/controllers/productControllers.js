@@ -1,5 +1,36 @@
 const Product = require("../models/Product");
+const { sendResponseError } = require("../middleware/middleware");
 
+// Controller để thêm sản phẩm mới
+const addProduct = async (req, res) => {
+  try {
+    const {
+      name,
+      long_desc,
+      short_desc,
+      category,
+      price,
+      countInStock,
+      imageUrl,
+    } = req.body;
+
+    const product = new Product({
+      name,
+      long_desc,
+      short_desc,
+      category,
+      price,
+      countInStock,
+      imageUrl,
+    });
+
+    await product.save();
+
+    res.status(201).json({ message: "Sản phẩm đã được thêm." });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 // Lấy tất cả sản phẩm
 const getAllProducts = async (req, res) => {
   try {
@@ -51,4 +82,4 @@ const getProductById = async (req, res) => {
   }
 };
 
-module.exports = { getAllProducts, getProductById };
+module.exports = { getAllProducts, getProductById, addProduct };
