@@ -8,7 +8,7 @@ const { connectDB } = require("./config/db");
 const app = express();
 
 const corsOptions = {
-  origin: "https://your-deployed-app-domain.com", // Đổi thành địa chỉ URL của ứng dụng triển khai của bạn
+  origin: "https://backend-ecomerce-ropi.onrender.com", // Đổi thành địa chỉ URL của ứng dụng triển khai của bạn
 };
 app.use(cors(corsOptions));
 // Middleware để phân tích dữ liệu JSON
