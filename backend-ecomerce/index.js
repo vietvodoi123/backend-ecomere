@@ -7,7 +7,10 @@ const cors = require("cors");
 const { connectDB } = require("./config/db");
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  origin: "https://your-deployed-app-domain.com", // Đổi thành địa chỉ URL của ứng dụng triển khai của bạn
+};
+app.use(cors(corsOptions));
 // Middleware để phân tích dữ liệu JSON
 app.use(express.json());
 
