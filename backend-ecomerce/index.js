@@ -8,7 +8,7 @@ const { connectDB } = require("./config/db");
 const app = express();
 
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:5000" }));
+app.use(cors({ origin: "http://localhost:3000" }));
 
 connectDB();
 app.get("/", (req, res) => {
