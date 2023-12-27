@@ -21,9 +21,17 @@ const productSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  discount: {
+    type: Number,
+    default: 0, // Giảm giá mặc định là 0
+  },
   countInStock: {
     type: Number,
     required: true,
+  },
+  rating: {
+    type: Number,
+    default: 0, // Đánh giá mặc định là 0
   },
   imageUrl: {
     type: [String],
@@ -32,6 +40,11 @@ const productSchema = mongoose.Schema({
   unitsSold: {
     type: Number,
     default: 0, // Số lượng đã bán mặc định là 0
+  },
+  creatorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
 });
 

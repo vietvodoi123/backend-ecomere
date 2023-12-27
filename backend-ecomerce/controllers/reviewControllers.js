@@ -1,34 +1,64 @@
 const Review = require("../models/Review");
+const Product = require("../models/Product");
+
+const calcRatingProdduct = async (product_id) => {
+  // Tính toán lại chỉ số rate của sản phẩm
+  const product = await Product.findById(product_id);
+  if (product) {
+    const totalReviews = await Review.countDocuments({ product_id });
+    const totalRating = await Review.aggregate([
+      { $match: { product_id } },
+      { $group: { _id: null, total: { $sum: "$rating" } } },
+    ]);
+
+    product.rating = totalRating[0]?.total / totalReviews;
+    await product.save();
+  }
+};
 
 // Lấy tất cả bình luận của sản phẩm từ mới đến cũ
 const getAllProductReviews = async (req, res) => {
   try {
     const { product_id } = req.params;
+    let { page, pageSize } = req.query;
 
-    // Lấy tất cả bình luận của sản phẩm dựa trên product_id và sắp xếp theo ngày
-    const reviews = await Review.find({ product_id }).sort({ date: -1 });
+    if (!page) page = 1;
+    if (!pageSize) pageSize = 10;
 
-    res.status(200).json({ data: reviews });
+    const reviews = await Review.find({ product_id })
+      .sort({ date: -1 })
+      .skip((page - 1) * pageSize)
+      .limit(parseInt(pageSize))
+      .populate("user_id", "name avatar"); // Thêm populate để lấy thông tin người đánh giá
+
+    res.status(200).json({ data: reviews, matadata: { page, pageSize } });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// Lấy tất cả bình luận của tôi từ mới đến cũ
+// Sửa phần getAllMyReviews trong review controller
 const getAllMyReviews = async (req, res) => {
   try {
     const { user_id } = req.params;
+    let { page, pageSize } = req.query;
 
-    // Lấy tất cả bình luận của người dùng dựa trên user_id và sắp xếp theo ngày
-    const reviews = await Review.find({ user_id }).sort({ date: -1 });
+    if (!page) page = 1;
+    if (!pageSize) pageSize = 10;
 
-    res.status(200).json({ data: reviews });
+    const reviews = await Review.find({ user_id })
+      .sort({ date: -1 })
+      .skip((page - 1) * pageSize)
+      .limit(parseInt(pageSize))
+      .populate("product_id", "name imageUrl"); // Thêm populate để lấy thông tin sản phẩm
+
+    res.status(200).json({ data: reviews, matadata: { page, pageSize } });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// Thêm một bình luận
+// Thêm vào phần addReview trong review controller
 const addReview = async (req, res) => {
   try {
     const { product_id, user_id, rating, comment } = req.body;
@@ -41,6 +71,7 @@ const addReview = async (req, res) => {
     });
 
     await review.save();
+    calcRatingProdduct();
 
     res.status(201).json({ message: "Bình luận đã được thêm." });
   } catch (error) {
