@@ -8,7 +8,12 @@ const { connectDB } = require("./config/db");
 const app = express();
 
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*"); // Cho phép tất cả các nguồn gốc
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
 
 connectDB();
 app.get("/", (req, res) => {
