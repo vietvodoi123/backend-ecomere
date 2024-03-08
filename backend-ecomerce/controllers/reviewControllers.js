@@ -16,7 +16,29 @@ const calcRatingProdduct = async (product_id) => {
   }
 };
 
-// Lấy tất cả bình luận của sản phẩm từ mới đến cũ
+// Thêm vào phần addReview trong review controller
+const addReview = async (req, res) => {
+  try {
+    const { product_id, user_id, rating, comment } = req.body;
+
+    const reviews = product_id.map((product) => ({
+      product_id: product,
+      user_id,
+      rating,
+      comment,
+    }));
+
+    await Review.insertMany(reviews);
+
+    // Tính toán lại chỉ số đánh giá cho tất cả sản phẩm
+    await Promise.all(product_id.map((pro_id) => calcRatingProdduct(pro_id)));
+
+    res.status(201).json({ message: "Bình luận đã được thêm." });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const getAllProductReviews = async (req, res) => {
   try {
     const { product_id } = req.params;
@@ -25,13 +47,21 @@ const getAllProductReviews = async (req, res) => {
     if (!page) page = 1;
     if (!pageSize) pageSize = 10;
 
+    const totalReviews = await Review.countDocuments({ product_id });
+    const totalPages = Math.ceil(totalReviews / pageSize);
+
     const reviews = await Review.find({ product_id })
       .sort({ date: -1 })
       .skip((page - 1) * pageSize)
       .limit(parseInt(pageSize))
-      .populate("user_id", "name avatar"); // Thêm populate để lấy thông tin người đánh giá
+      .populate("user_id", "name avatar");
 
-    res.status(200).json({ data: reviews, matadata: { page, pageSize } });
+    res.status(200).json({
+      data: reviews,
+      page,
+      pageSize,
+      totalPages: totalPages,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -53,27 +83,6 @@ const getAllMyReviews = async (req, res) => {
       .populate("product_id", "name imageUrl"); // Thêm populate để lấy thông tin sản phẩm
 
     res.status(200).json({ data: reviews, matadata: { page, pageSize } });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-// Thêm vào phần addReview trong review controller
-const addReview = async (req, res) => {
-  try {
-    const { product_id, user_id, rating, comment } = req.body;
-
-    const review = new Review({
-      product_id,
-      user_id,
-      rating,
-      comment,
-    });
-
-    await review.save();
-    calcRatingProdduct();
-
-    res.status(201).json({ message: "Bình luận đã được thêm." });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

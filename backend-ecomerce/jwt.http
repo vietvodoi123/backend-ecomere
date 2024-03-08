@@ -14,9 +14,10 @@ GET http://localhost:3000/api/carts/653f466a7d4ddd21b29a3dee
 
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1M2Y0NjZhN2Q0ZGRkMjFiMjlhM2RlZSIsImlhdCI6MTY5ODY0NzI2NSwiZXhwIjoxNzA3Mjg3MjY1fQ.hF0ZViAZeUKi8gS-sKluF_Tf2rVMtKaq1Xips6L9tU8
 ###
-POST  http://localhost:3000/api/products
-
+POST  http://localhost:5000/api/products
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODU5ZTIwNzA2NzliOTIxNDY2NDg0OSIsImlhdCI6MTcwMzc2Nzg0MCwiZXhwIjoxNzEyNDA3ODQwfQ.vlkd-pWu5Uv7zDOn8q0UZO92J3ksc63rTR0BL86742A
 {
+  "creatorId":"65859e2070679b9214664849",
   "name":"Apple Watch Series 8 Nhôm GPS + Cellular Dây Thể Thao",
   "long_desc":"Bảo hành chính hãng 12 tháng.  Bộ sản phẩm gồm: đồng hồ + cáp sạc  Chọn màu:Midnight, Starlight, Silver, (PRODUCT) RED  Thương hiệuApple  Kích thước màn hình41mm  Màn hìnhCông nghệ màn hình: OLED  Kích thước mặt: 41 mm  Độ phân giải: 430 x 352 pixels  Thiết kếChất liệu mặt: Ion-X strengthened glass  Chất liệu khung viền: Hợp kim nhôm  Chất liệu dây: Silicone  Khả năng thay dây: Có  Kích thước, khối lượng: Dài 41 mm – Ngang 35 mm – Dày 10.7 mm – Nặng 32g  Tiện íchSim & nghe gọi: Qua bluetooth (Phải mang điện thoại)  Tiện ích đặc biệt:  – Màn hình luôn hiển thị  – Phát hiện té ngã  – Kết nối bluetooth với tai nghe  Chống nước, Kháng nước: Chống nước 5 ATM – ISO 22810:2010 (Tắm, bơi vùng nước nông)  – Theo dõi sức khoẻ:  – Chấm điểm giấc ngủ  – Nhắc nhở nhịp tim cao, thấp  – Theo dõi giấc ngủ  – Theo dõi mức độ stress  – Tính quãng đường chạy  – Điện tâm đồ  – Đo lượng tiêu thụ oxy tối đa (VO2 max)  – Đo nhịp tim  – Đo nồng độ oxy trong máu (SpO2)  – Đếm số bước chân  – Cảm biến nhiệt độ  – Theo dõi chu kì kinh nguyệt  Tiện ích khác:  – Màn hình cảm ứng  – Nghe gọi trên đồng hồ  – Nâng cổ tay sáng màn hình  – Trợ lý giọng nói  – Tính năng Family Setup  – Báo thức  – Cuộc gọi khẩn cấp SOS  – Dự báo thời tiết  – Phát hiện té ngã  – Rung thông báo  – Thay mặt đồng hồ  – Từ chối cuộc gọi  – Điều khiển chơi nhạc  – Điều khiển chụp ảnh  – Đồng hồ bấm giờ  – Màn hình luôn hiển thị  – Chuyển vùng quốc tế  Hiển thị thông báo:Cuộc gọi  – Line, Messenger (Facebook), Tin nhắn, Viber, Zalo",
   "short_desc":"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est consequatur in placeat, facere sunt iusto quos. Nihil odit earum magnam omnis harum tempora, delectus laboriosam dignissimos voluptatibus, inventore ducimus libero.",

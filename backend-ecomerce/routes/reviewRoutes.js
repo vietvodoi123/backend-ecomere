@@ -10,7 +10,7 @@ const {
 const { verifyUser } = require("../middleware/middleware");
 
 // Lấy tất cả bình luận của sản phẩm từ mới đến cũ
-router.get("/", getAllProductReviews);
+router.get("/:product_id", getAllProductReviews);
 
 // Lấy tất cả bình luận của tôi từ mới đến cũ
 router.get("/", verifyUser, getAllMyReviews);

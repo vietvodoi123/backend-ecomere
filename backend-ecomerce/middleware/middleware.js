@@ -17,7 +17,6 @@ const verifyUser = async (req, res, next) => {
 
   try {
     const payload = await verifyToken(authorization.split(" ")[1]);
-    console.log(payload);
     if (payload) {
       const user = await User.findById(payload.id, { password: 0 });
 

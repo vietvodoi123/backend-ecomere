@@ -16,7 +16,7 @@ router.get("/", getAllProducts);
 // Lấy sản phẩm theo ID
 router.get("/:id", getProductById);
 
-router.post("/", verifyUser, addProduct);
+router.post("/", addProduct);
 router.put("/:id", verifyUser, updateProduct);
 router.delete("/:id", verifyUser, deleteProduct);
 

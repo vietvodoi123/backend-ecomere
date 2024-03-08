@@ -1,4 +1,5 @@
 const Product = require("../models/Product");
+const User = require("../models/User");
 
 // Controller để thêm sản phẩm mới
 const addProduct = async (req, res) => {
@@ -14,7 +15,7 @@ const addProduct = async (req, res) => {
       imageUrl,
       creatorId,
     } = req.body;
-
+    console.log(req.body);
     const product = new Product({
       name,
       long_desc,
@@ -31,7 +32,7 @@ const addProduct = async (req, res) => {
 
     res.status(201).json({ message: "Sản phẩm đã được thêm." });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -55,11 +56,17 @@ const getAllProducts = async (req, res) => {
       filter.category = { $regex: category, $options: "i" };
     }
     if (creatorId) {
-      filter.creatorId = creatorId; // Đảm bảo rằng creatorId là một giá trị ObjectId
+      filter.creatorId = creatorId;
+      console.log(creatorId); // Đảm bảo rằng creatorId là một giá trị ObjectId
     }
 
-    const sortOptions = {};
-    sortOptions[sortBy] = sortOrder === "asc" ? 1 : -1;
+    let sortOptions = {};
+    if (sortBy && sortOrder) {
+      sortOptions = sortBy.split(",").reduce((acc, field) => {
+        acc[field] = sortOrder === "asc" ? 1 : -1;
+        return acc;
+      }, {});
+    }
 
     const totalRecords = await Product.countDocuments(filter);
     const totalPages = Math.ceil(totalRecords / pageSize);
@@ -116,7 +123,7 @@ const getUserInfo = async (userId) => {
       return {
         id: userId,
         avatar: user.avatar,
-        fullname: user.fullname,
+        fullName: user.fullName,
         email: user.email,
       };
     } else {
@@ -141,18 +148,10 @@ const updateProduct = async (req, res) => {
       countInStock,
       imageUrl,
     } = req.body;
-
     const product = await Product.findById(id);
 
     if (!product) {
       return res.status(404).json({ error: "Sản phẩm không được tìm thấy" });
-    }
-
-    // Kiểm tra xem người gửi yêu cầu có phải là người tạo sản phẩm không
-    if (product.createdBy.toString() !== req.user.id) {
-      return res
-        .status(403)
-        .json({ error: "Bạn không có quyền cập nhật sản phẩm này" });
     }
 
     const updatedProduct = await Product.findByIdAndUpdate(
@@ -171,7 +170,11 @@ const updateProduct = async (req, res) => {
     );
 
     if (updatedProduct) {
-      res.json(updatedProduct);
+     
+      res.json({
+        message: "Cập nhật sản phẩm thành công!",
+        item: updatedProduct,
+      });
     } else {
       res.status(404).json({ error: "Sản phẩm không được tìm thấy" });
     }
@@ -184,19 +187,20 @@ const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
 
+    // Kiểm tra xem sản phẩm có tồn tại không
     const product = await Product.findById(id);
-
     if (!product) {
       return res.status(404).json({ error: "Sản phẩm không được tìm thấy" });
     }
 
-    // Kiểm tra xem người gửi yêu cầu có phải là người tạo sản phẩm không
-    if (product.createdBy.toString() !== req.user.id) {
+    // Kiểm tra xem người gửi yêu cầu có quyền xóa sản phẩm không
+    if (product.creatorId.toString() !== req.user.id) {
       return res
         .status(403)
         .json({ error: "Bạn không có quyền xóa sản phẩm này" });
     }
 
+    // Xóa sản phẩm
     const deletedProduct = await Product.findByIdAndDelete(id);
 
     if (deletedProduct) {
@@ -205,6 +209,7 @@ const deleteProduct = async (req, res) => {
       res.status(404).json({ error: "Sản phẩm không được tìm thấy" });
     }
   } catch (error) {
+    
     res.status(500).json({ error: error.message });
   }
 };

@@ -15,7 +15,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    fullName: String,
+    fullName: {
+      type: String,
+      require: true,
+    },
   },
   {
     timestamps: true,

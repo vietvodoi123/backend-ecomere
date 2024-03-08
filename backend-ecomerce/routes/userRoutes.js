@@ -5,6 +5,8 @@ const {
   getUser,
   changePassword,
   getUserById,
+  updateUser,
+  getShopInfo,
 } = require("../controllers/userControllers");
 const { verifyUser } = require("../middleware/middleware");
 const router = express.Router();
@@ -18,5 +20,8 @@ router.post("/signin", signInUser);
 router.route("/me").get([verifyUser], getUser);
 router.route("/changepassword").post([verifyUser], changePassword);
 
+router.route("/:id").put([verifyUser], updateUser);
 router.get("/:id", getUserById);
+router.get("/shop/:userId", getShopInfo);
+
 module.exports = router;

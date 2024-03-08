@@ -20,18 +20,6 @@ const cartSchema = new mongoose.Schema({
       },
     },
   ],
-  isPaid: {
-    type: Boolean,
-    default: false,
-  },
-  status: {
-    type: String,
-    default: "Pending",
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
 });
 
 const Cart = mongoose.model("Cart", cartSchema);
