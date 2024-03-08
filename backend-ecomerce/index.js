@@ -11,10 +11,7 @@ const app = express();
 
 app.use(express.json());
 app.use((req, res, next) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "http://localhost:3000" | "https://femyapp.onrender.com"
-  );
+  res.setHeader("Access-Control-Allow-Origin", "https://femyapp.onrender.com");
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
