@@ -13,7 +13,7 @@ app.use(express.json());
 app.use((req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
-    "https://myshop213.netlify.app"
+    "https://main--myshop213.netlify.app/"
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
