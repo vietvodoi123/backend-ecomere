@@ -5,6 +5,8 @@ const cartRoutes = require("./routes/cartRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const billRoutes = require("./routes/billRoute");
 
+const sendOTP = require("./controllers/otpService");
+
 const cors = require("cors");
 const { connectDB } = require("./config/db");
 const app = express();
@@ -35,7 +37,37 @@ app.use("/api/carts", cartRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/bills", billRoutes);
 
-// Khởi động máy chủ
+const otpStore = {};
+app.post("/api/send-otp", async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).send("Email is required");
+  }
+
+  try {
+    const otp = await sendOTP(email);
+    otpStore[email] = { otp, expires: Date.now() + 300000 };
+
+    return res.status(200).send("OTP sent to your email");
+  } catch (error) {
+    return res.status(500).send("Could not send OTP");
+  }
+});
+app.post("/api/verify-otp", (req, res) => {
+  const { email, otp } = req.body;
+  if (otpStore[email] && otpStore[email].otp === otp) {
+    if (Date.now() < otpStore[email].expires) {
+      delete otpStore[email];
+      return res.status(200).send("OTP verified successfully");
+    } else {
+      return res.status(400).send("OTP has expired");
+    }
+  } else {
+    return res.status(400).send("Invalid OTP");
+  }
+});
+
 app.listen(5000, () => {
   console.log(`Máy chủ đang chạy trên cổng ${5000}`);
 });

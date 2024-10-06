@@ -2,13 +2,10 @@ const mongoose = require("mongoose");
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(
-      "mongodb+srv://vietvodoi1232:viet24112001@cluster0.wdw1nve.mongodb.net/backend-ecomerce?retryWrites=true&w=majority",
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
-    );
+    await mongoose.connect(process.env.MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
 
     console.log("MongoDB connection SUCCESS");
   } catch (error) {

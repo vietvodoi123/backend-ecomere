@@ -57,16 +57,16 @@ const getAllProducts = async (req, res) => {
     }
     if (creatorId) {
       filter.creatorId = creatorId;
-      console.log(creatorId); // Đảm bảo rằng creatorId là một giá trị ObjectId
     }
 
+    // Xử lý sắp xếp với nhiều thuộc tính
     let sortOptions = {};
-    if (sortBy && sortOrder) {
-      sortOptions = sortBy.split(",").reduce((acc, field) => {
-        acc[field] = sortOrder === "asc" ? 1 : -1;
-        return acc;
-      }, {});
-    }
+    const sortByFields = sortBy.split(","); // Tách các thuộc tính sắp xếp bằng dấu phẩy
+    const sortOrderFields = sortOrder.split(",");
+    // Ánh xạ thứ tự sắp xếp tương ứng với các thuộc tính
+    sortByFields.forEach((field, index) => {
+      sortOptions[field] = sortOrderFields[index] === "asc" ? 1 : -1;
+    });
 
     const totalRecords = await Product.countDocuments(filter);
     const totalPages = Math.ceil(totalRecords / pageSize);
@@ -170,7 +170,6 @@ const updateProduct = async (req, res) => {
     );
 
     if (updatedProduct) {
-     
       res.json({
         message: "Cập nhật sản phẩm thành công!",
         item: updatedProduct,
@@ -209,7 +208,6 @@ const deleteProduct = async (req, res) => {
       res.status(404).json({ error: "Sản phẩm không được tìm thấy" });
     }
   } catch (error) {
-    
     res.status(500).json({ error: error.message });
   }
 };
