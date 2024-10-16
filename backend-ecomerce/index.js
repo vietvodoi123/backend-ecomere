@@ -4,7 +4,7 @@ const productRoutes = require("./routes/productRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const billRoutes = require("./routes/billRoute");
-
+const User = require("./models/User");
 const sendOTP = require("./controllers/otpService");
 
 const cors = require("cors");
@@ -54,11 +54,13 @@ app.post("/api/send-otp", async (req, res) => {
     return res.status(500).send("Could not send OTP");
   }
 });
-app.post("/api/verify-otp", (req, res) => {
+app.post("/api/verify-otp", async (req, res) => {
   const { email, otp } = req.body;
   if (otpStore[email] && otpStore[email].otp === otp) {
     if (Date.now() < otpStore[email].expires) {
       delete otpStore[email];
+      await User.findOneAndUpdate({ email: email }, { isVerify: true });
+
       return res.status(200).send("OTP verified successfully");
     } else {
       return res.status(400).send("OTP has expired");
