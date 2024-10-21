@@ -4,10 +4,11 @@ const productRoutes = require("./routes/productRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const billRoutes = require("./routes/billRoute");
+const postRoutes = require("./routes/postRoute");
+
 const User = require("./models/User");
 const sendOTP = require("./controllers/otpService");
 
-const cors = require("cors");
 const { connectDB } = require("./config/db");
 const app = express();
 
@@ -36,6 +37,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/carts", cartRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/bills", billRoutes);
+app.use("/api/posts", postRoutes);
 
 const otpStore = {};
 app.post("/api/send-otp", async (req, res) => {
