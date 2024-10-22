@@ -15,7 +15,6 @@ const addProduct = async (req, res) => {
       imageUrl,
       creatorId,
     } = req.body;
-    console.log(req.body);
     const product = new Product({
       name,
       long_desc,
@@ -152,6 +151,12 @@ const updateProduct = async (req, res) => {
 
     if (!product) {
       return res.status(404).json({ error: "Sản phẩm không được tìm thấy" });
+    }
+
+    if (product.creatorId.toString() !== req.user.id) {
+      return res
+        .status(403)
+        .json({ message: "Bạn không có quyền cập nhật sản phẩm này." });
     }
 
     const updatedProduct = await Product.findByIdAndUpdate(

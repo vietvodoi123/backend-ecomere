@@ -5,8 +5,9 @@ const Post = require("../models/Post"); // Giả sử bạn đã định nghĩa 
 // Tạo bài viết mới
 exports.createPost = async (req, res) => {
   try {
-    const { title, content, author, slug } = req.body;
-    const newPost = new Post({ title, content, author, slug });
+    const { title, content } = req.body;
+
+    const newPost = new Post({ title, content, author: req.user.id });
     await newPost.save();
     res.status(201).json({
       message: "Đăng bài viết thành công !",
@@ -20,27 +21,23 @@ exports.createPost = async (req, res) => {
   }
 };
 exports.getPosts = async (req, res) => {
-  const { page = 1, limit = 10, search = "" } = req.query; // Lấy page, limit và search từ query params
-
+  const { page = 1, limit = 10, search = "", author } = req.query;
   try {
-    // Chuyển đổi page và limit sang kiểu số
     const pageNum = parseInt(page);
     const limitNum = parseInt(limit);
 
-    // Tính toán skip
     const skip = (pageNum - 1) * limitNum;
 
-    // Tìm kiếm các bài viết theo từ khóa và phân trang
-    const posts = await Post.find({
-      title: { $regex: search, $options: "i" }, // Tìm kiếm không phân biệt chữ hoa chữ thường
-    })
-      .skip(skip) // Bỏ qua số bài viết dựa trên page
-      .limit(limitNum); // Giới hạn số bài viết trả về
-
-    // Đếm tổng số bài viết
-    const totalPosts = await Post.countDocuments({
+    const filter = {
       title: { $regex: search, $options: "i" },
-    });
+    };
+
+    if (author) {
+      filter.author = author;
+    }
+
+    const posts = await Post.find(filter).skip(skip).limit(limitNum);
+    const totalPosts = await Post.countDocuments(filter);
 
     res.status(200).json({
       posts,
@@ -81,7 +78,7 @@ exports.updatePost = async (req, res) => {
     }
 
     // Kiểm tra xem người dùng có phải là tác giả của bài viết không
-    if (post.author.toString() !== req.body.authorId) {
+    if (post.author.toString() !== req.user.id) {
       // authorId từ body hoặc token của người dùng
       return res
         .status(403)
@@ -111,7 +108,7 @@ exports.deletePost = async (req, res) => {
     }
 
     // Kiểm tra xem người dùng có phải là tác giả của bài viết không
-    if (post.author.toString() !== req.body.authorId) {
+    if (post.author.toString() !== req.user.id) {
       // authorId từ body hoặc token của người dùng
       return res
         .status(403)

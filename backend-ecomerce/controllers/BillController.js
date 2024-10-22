@@ -96,7 +96,18 @@ const createBill = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
+const getBillById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const bill = await Bill.findById(id);
+    if (!bill) {
+      return res.status(404).json({ message: "Không tìm thấy đơn hàng!" });
+    }
+    return res.status(200).json(bill);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
 // Controller để cập nhật bill
 const updateBill = async (req, res) => {
   try {
@@ -114,17 +125,25 @@ const updateBill = async (req, res) => {
     if (!updatedBill) {
       return res.status(404).json({ message: "Bill not found" });
     }
-    res
+    if (
+      updatedBill.buyer.toString() !== req.user.id ||
+      updatedBill.seller.toString() !== req.user.id
+    ) {
+      return res
+        .status(403)
+        .json({ message: "Bạn không có quyền cập nhật hóa đơn này." });
+    }
+    return res
       .status(200)
       .json({ message: "Bill updated successfully", data: updatedBill });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 };
 
 const getAllBillsByUser = async (req, res) => {
   try {
-    const { buyerId } = req.params;
+    const buyerId = req.user.id;
     const { page = 1, searchKey, status } = req.query;
     const pageSize = 10;
 
@@ -173,7 +192,7 @@ const getAllBillsByUser = async (req, res) => {
 // Controller để lấy tất cả bill của người bán với các tùy chọn
 const getAllBillsBySeller = async (req, res) => {
   try {
-    const { sellerId } = req.params;
+    const sellerId = req.user.id;
     const { status, searchKey, page = 1 } = req.query;
     const pageSize = 10;
 
@@ -223,4 +242,5 @@ module.exports = {
   updateBill,
   getAllBillsByUser,
   getAllBillsBySeller,
+  getBillById,
 };

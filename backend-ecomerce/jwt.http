@@ -38,10 +38,21 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:5000/api/verify-otp
+POST http://localhost:5000/api/users/signin
 Content-Type: application/json
 
 {
-  "email":"vietvodoi12343@gmail.com",
-  "otp":"250266"
+  "email":"vietvodoi1232@gmail.com",
+  "password":"viet24112001"
+}
+
+###
+
+POST http://localhost:5000/api/posts/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MGZlY2MzYzJiZGVjMWE0NjJiNmE5NSIsImlhdCI6MTcyOTU4NDc2MywiZXhwIjoxNzM4MjI0NzYzfQ.c9oXofSg3A0gQlmDnJS_w-dAngePSJCpXeiLLZvDE20
+
+{
+  "title":"baiviet1",
+  "content":"Authorization: Bearerdsad ad sdasasada",
+  "author":"66f29815559dbf42d353edca"
 }
