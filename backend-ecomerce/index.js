@@ -13,6 +13,7 @@ const { connectDB } = require("./config/db");
 const app = express();
 
 app.use(express.json());
+const allowedOrigins = ["http://localhost:3000", "myshop-two-flame.vercel.app"];
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
